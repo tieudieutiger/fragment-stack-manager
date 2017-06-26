@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.tieudieu.fragmentstackmanager.BaseFragmentStack;
+import com.tieudieu.fragmentstackmanagerthreadqueue.BaseFragmentStack;
 import com.tieudieu.mikurbase.MApplication;
 import com.tieudieu.mikurbase.R;
 

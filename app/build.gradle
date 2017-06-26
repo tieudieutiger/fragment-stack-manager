@@ -34,7 +34,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // fragment stack manager
-    compile project(':fragmentstackmanager')
+    compile project(':fragmentstackmanagerthreadqueue')
     
 
     // retrofit & okhttp

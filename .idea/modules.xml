@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/fragment-stack-manager.iml" filepath="$PROJECT_DIR$/fragment-stack-manager.iml" />
-      <module fileurl="file://$PROJECT_DIR$/fragmentstackmanager/fragmentstackmanager.iml" filepath="$PROJECT_DIR$/fragmentstackmanager/fragmentstackmanager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fragmentstackmanagerthreadqueue/fragmentstackmanagerthreadqueue.iml" filepath="$PROJECT_DIR$/fragmentstackmanagerthreadqueue/fragmentstackmanagerthreadqueue.iml" />
     </modules>
   </component>
 </project>
