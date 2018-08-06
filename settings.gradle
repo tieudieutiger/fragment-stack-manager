@@ -1,1 +1,1 @@
-include ':app', ':fragmentstackmanagerthreadqueue'
+include ':app', ':fragmentstackmanager'
