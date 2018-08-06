@@ -1,28 +1,28 @@
 apply plugin: 'com.android.library'
 
-//ext {
-//    bintrayRepo = 'maven'
-//    bintrayName = 'fragment-stack-manager'
-//
-//    publishedGroupId = 'com.tieudieu.fragmentstackmanager'
-//    libraryName = 'fragment-stack-manager'
-//    artifact = 'fragment-stack-manager'
-//
-//    libraryDescription = 'A powerful android fragment stack manager library'
-//
-//    siteUrl = 'https://github.com/tieudieutiger/fragment-stack-manager'
-//    gitUrl = 'https://github.com/tieudieutiger/fragment-stack-manager.git'
-//
-//    libraryVersion = '1.0.0'
-//
-//    developerId = 'tieudieutiger'
-//    developerName = 'Chieu Vu Van'
-//    developerEmail = 'vuvantrieu.k54.cb@gmail.com'
-//
-//    licenseName = 'The Apache Software License, Version 2.0'
-//    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//    allLicenses = ["Apache-2.0"]
-//}
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'fragment-stack-manager'
+
+    publishedGroupId = 'com.tieudieu.fragmentstackmanagerthreadqueue'
+    libraryName = 'fragment-stack-manager-threadqueue'
+    artifact = 'fragment-stack-manager-threadqueue'
+
+    libraryDescription = 'A powerful android fragment stack manager library'
+
+    siteUrl = 'https://github.com/tieudieutiger/fragment-stack-manager'
+    gitUrl = 'https://github.com/tieudieutiger/fragment-stack-manager.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'tieudieutiger'
+    developerName = 'Chieu Vu Van'
+    developerEmail = 'vuvantrieu.k54.cb@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
 
 buildscript {
     repositories {
@@ -53,5 +53,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
 }
 
-//apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
-//apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'
+apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
+apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'
