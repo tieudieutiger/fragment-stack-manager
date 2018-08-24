@@ -1,4 +1,4 @@
-package com.tieudieu.fragmentstackmanagerthreadqueue;
+package com.tieudieu.fragmentstackmanager;
 
 import android.content.Context;
 

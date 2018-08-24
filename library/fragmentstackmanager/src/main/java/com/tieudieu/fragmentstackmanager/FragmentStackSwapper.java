@@ -1,4 +1,4 @@
-package com.tieudieu.fragmentstackmanagerthreadqueue;
+package com.tieudieu.fragmentstackmanager;
 
 import android.support.v4.app.Fragment;
 
@@ -14,6 +14,8 @@ public interface FragmentStackSwapper<F extends Fragment> {
     void popFragment();
     void clearStack();
     void clearStackAll();
+    void clearStackUntilTop();
+    void clearStackAllUntilTop();
     int size();
 
     F getCurrentFragment();

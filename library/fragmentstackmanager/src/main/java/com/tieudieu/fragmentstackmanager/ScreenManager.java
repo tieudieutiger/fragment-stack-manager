@@ -1,4 +1,4 @@
-package com.tieudieu.fragmentstackmanagerthreadqueue;
+package com.tieudieu.fragmentstackmanager;
 
 import android.support.v4.app.Fragment;
 
@@ -14,5 +14,11 @@ public interface ScreenManager {
     void onCloseRequested();
     void onNewScreenRequested(int indexTag, int typeContent, Object object);
     void onNewScreenRequested(int indexTag, String typeContent, Object object);
+
+    void onClearStackRequested();
+    void onClearStackAllRequested();
+
+    void onClearStackUntilTopRequested();
+    void onClearStackAllUntilTopRequested();
 
 }

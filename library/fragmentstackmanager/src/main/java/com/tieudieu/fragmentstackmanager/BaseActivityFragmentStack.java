@@ -1,4 +1,4 @@
-package com.tieudieu.fragmentstackmanagerthreadqueue;
+package com.tieudieu.fragmentstackmanager;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,7 +26,7 @@ public abstract class BaseActivityFragmentStack extends BaseActivity implements 
         builder.screenManager(this);
         builder.contentFrame(getContentFrameId());
         builder.fragmentManager(getSupportFragmentManager());
-        builder.enableAnimation(true);
+        builder.enableAnimation(false);
         builder.setHomeClass(getHomeClass());
 
         mFragmentStackManager = new FragmentStackManager();
@@ -58,6 +58,26 @@ public abstract class BaseActivityFragmentStack extends BaseActivity implements 
     @Override
     public void onCloseRequested() {
         finish();
+    }
+
+    @Override
+    public void onClearStackUntilTopRequested() {
+        mFragmentStackManager.clearStackUntilTop();
+    }
+
+    @Override
+    public void onClearStackAllUntilTopRequested() {
+        mFragmentStackManager.clearStackAllUntilTop();
+    }
+
+    @Override
+    public void onClearStackRequested() {
+        mFragmentStackManager.clearStack();
+    }
+
+    @Override
+    public void onClearStackAllRequested() {
+        mFragmentStackManager.clearStackAll();
     }
 
     protected FragmentStackManager getFragmentStackManager(){

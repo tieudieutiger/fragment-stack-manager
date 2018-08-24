@@ -1,4 +1,4 @@
-package com.tieudieu.fragmentstackmanagerthreadqueue.workqueue;
+package com.tieudieu.fragmentstackmanager.workqueue;
 
 import com.tieudieu.util.DebugLog;
 
@@ -62,7 +62,13 @@ public class WorkQueue {
             if (!queue.isEmpty()) {
                 for (int i = 0; i < threads.length; i++) {
                     if (threads[i].isAlive()){
-                        threads[i].start();
+
+                        try {
+                            threads[i].start();
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+
                         return;
                     }
                 }

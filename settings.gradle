@@ -1,1 +1,2 @@
-include ':app', ':fragmentstackmanager'
+include ':app'
+include ':library:fragmentstackmanager'

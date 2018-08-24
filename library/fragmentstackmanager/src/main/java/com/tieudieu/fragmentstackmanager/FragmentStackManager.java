@@ -1,4 +1,4 @@
-package com.tieudieu.fragmentstackmanagerthreadqueue;
+package com.tieudieu.fragmentstackmanager;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -6,7 +6,7 @@ import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
-import com.tieudieu.fragmentstackmanagerthreadqueue.workqueue.WorkQueue;
+import com.tieudieu.fragmentstackmanager.workqueue.WorkQueue;
 import com.tieudieu.util.DebugLog;
 
 import java.util.Stack;
@@ -24,6 +24,7 @@ public class FragmentStackManager<F extends Fragment> implements FragmentStackSw
     private Stack<F> stackFragments;
 
     //
+    private boolean mUseWorkQueue = false;
     private WorkQueue mWorkQueue;
 
     public FragmentStackManager() {
@@ -38,13 +39,18 @@ public class FragmentStackManager<F extends Fragment> implements FragmentStackSw
         mInitializationParams = initializationParams;
         stackFragments = new Stack<>();
 
-        mWorkQueue = new WorkQueue(2);
-        mWorkQueue.start();
+        if (mUseWorkQueue) {
+            mWorkQueue = new WorkQueue(2);
+            mWorkQueue.start();
+        }
     }
 
     @Override
     public void destroy() {
-        mWorkQueue.stop();
+
+        if (mUseWorkQueue) {
+            mWorkQueue.stop();
+        }
     }
 
     private void performOperationIfAllowed(final Runnable operation) {
@@ -161,9 +167,12 @@ public class FragmentStackManager<F extends Fragment> implements FragmentStackSw
                 notifyFragmentChange();
             }
         };
-//        performOperationIfAllowed(operation);
 
-        mWorkQueue.execute(operation);
+        if (mUseWorkQueue)
+            mWorkQueue.execute(operation);
+        else
+            performOperationIfAllowed(operation);
+
 
         // hide old fragment if animation anable
         if (mInitializationParams.isAnimationEnabled()) {
@@ -179,20 +188,26 @@ public class FragmentStackManager<F extends Fragment> implements FragmentStackSw
                     ft.commit();
                 }
             };
-//            performOperationIfAllowed(operationHide, true);
+//
+            if (mUseWorkQueue) {
 
-            Runnable operationHideDelay = new Runnable() {
-                @Override
-                public void run() {
-                    mUiHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            operationHide.run();
-                        }
-                    }, TIME_ANIMATION);
-                }
-            };
-            mWorkQueue.execute(operationHideDelay);
+                Runnable operationHideDelay = new Runnable() {
+                    @Override
+                    public void run() {
+                        mUiHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                operationHide.run();
+                            }
+                        }, TIME_ANIMATION);
+                    }
+                };
+
+                mWorkQueue.execute(operationHideDelay);
+            } else {
+
+                performOperationIfAllowed(operationHide, true);
+            }
         }
     }
 
@@ -221,9 +236,12 @@ public class FragmentStackManager<F extends Fragment> implements FragmentStackSw
                 }
             }
         };
-//        performOperationIfAllowed(operation);
 
-        mWorkQueue.execute(operation);
+//
+        if (mUseWorkQueue)
+            mWorkQueue.execute(operation);
+        else
+            performOperationIfAllowed(operation);
     }
 
     @Override
@@ -249,9 +267,12 @@ public class FragmentStackManager<F extends Fragment> implements FragmentStackSw
                     ft.commit();
                 }
             };
-//            performOperationIfAllowed(operation);
 
-            mWorkQueue.execute(operation);
+//
+            if (mUseWorkQueue)
+                mWorkQueue.execute(operation);
+            else
+                performOperationIfAllowed(operation);
         }
     }
 
@@ -270,8 +291,73 @@ public class FragmentStackManager<F extends Fragment> implements FragmentStackSw
                 ft.commit();
             }
         };
-        //performOperationIfAllowed(operation);
 
-        mWorkQueue.execute(operation);
+//
+        if (mUseWorkQueue)
+            mWorkQueue.execute(operation);
+        else
+            performOperationIfAllowed(operation);
+    }
+
+    @Override
+    public void clearStackUntilTop() {
+
+        if (mInitializationParams.getHomeClass() == null) {
+
+            clearStackAllUntilTop();
+
+        } else {
+
+            Runnable operation = new Runnable() {
+
+                @Override
+                public void run() {
+
+                    mInitializationParams.getFragmentManager().executePendingTransactions();
+                    FragmentTransaction ft = mInitializationParams.getFragmentManager().beginTransaction();
+
+                    for (int i = stackFragments.size() - 2; i >= 0; i--) {
+                        if (stackFragments.get(i).getClass() == mInitializationParams.getHomeClass()) {
+                            stackFragments.get(i).onResume();
+                            ft.show(stackFragments.get(i));
+                            continue;
+                        }
+                        ft.remove(stackFragments.get(i));
+                        stackFragments.remove(i);
+                    }
+                    ft.commit();
+                }
+
+            };
+
+            if (mUseWorkQueue)
+                mWorkQueue.execute(operation);
+            else
+                performOperationIfAllowed(operation);
+        }
+    }
+
+    @Override
+    public void clearStackAllUntilTop() {
+
+        Runnable operation = new Runnable() {
+            @Override
+            public void run() {
+                mInitializationParams.getFragmentManager().executePendingTransactions();
+                FragmentTransaction ft = mInitializationParams.getFragmentManager().beginTransaction();
+
+                for (int i = stackFragments.size() - 2; i >= 0; i--) {
+                    ft.remove(stackFragments.get(i));
+                    stackFragments.remove(i);
+                }
+                ft.commit();
+            }
+        };
+
+        if (mUseWorkQueue)
+            mWorkQueue.execute(operation);
+        else
+            performOperationIfAllowed(operation);
+
     }
 }
